@@ -2,6 +2,28 @@ const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
 
+// Ignora esto, solo lo hice porque no tengo la bd en Mongo...
+const posts = [
+  {
+    id: 1,
+    username: "user1",
+    title: "Post 1",
+    desc: "Description 1",
+    photo: "https://picsum.photos/200/300",
+    createdAt: new Date(),
+    categories: [{ name: "Technology" }, { name: "Business" }],
+  },
+  {
+    id: 2,
+    username: "user2",
+    title: "Post 2",
+    desc: "Description 2",
+    photo: "https://picsum.photos/200/300",
+    createdAt: new Date(),
+    categories: [{ name: "Technology" }, { name: "Business" }],
+  },
+];
+
 //CREATE POST
 router.post("/", async (req, res) => {
   const newPost = new Post(req.body);
@@ -72,18 +94,18 @@ router.get("/", async (req, res) => {
   const username = req.query.user;
   const catName = req.query.cat;
   try {
-    let posts;
-    if (username) {
-      posts = await Post.find({ username });
-    } else if (catName) {
-      posts = await Post.find({
-        categories: {
-          $in: [catName],
-        },
-      });
-    } else {
-      posts = await Post.find();
-    }
+    // let posts;
+    // if (username) {
+    //   posts = await Post.find({ username });
+    // } else if (catName) {
+    //   posts = await Post.find({
+    //     categories: {
+    //       $in: [catName],
+    //     },
+    //   });
+    // } else {
+    //   posts = await Post.find();
+    // }
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json(err);
