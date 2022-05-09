@@ -15,7 +15,7 @@ router.post('/', async(req,res) =>{
    }
 })
 
-//Get All
+//Get All categories
 router.get('/', async(req,res) =>{
     try {
         const newCat = await Category .find();
