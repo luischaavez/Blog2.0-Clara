@@ -38,13 +38,15 @@ if(process.env.NODE_ENV === 'production'){
     app.get('*',(req,res) =>{
         res.sendFile(path.resolve(__dirname,'client','build','index.html'));
     })
-}
-const URL = 'mongodb+srv://ClaraGarcia:LoLe2001@cluster0.twsxh.mongodb.net/Cluster0?retryWrites=true&w=majority';
-mongoose.connect(URL,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
-    // useCreateIndex: true,
-}) .then(console.log("backend is running"));
+}; 
+
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    //useCreateIndex: true,
+  })
+  .then(console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
 
 app.listen(PORT,()=>{
     console.log("Server is running");
