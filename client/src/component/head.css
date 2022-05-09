@@ -1,0 +1,26 @@
+.firstt {
+    top: 7%;
+   color: white;
+}
+
+.secondd{
+    font-size: 100px;
+    font-family: Lora;
+    top: 6%;
+    color: aliceblue;
+   
+}
+.back{
+    background-image: url('../component/assests/2.jpg');
+    height: 500px;
+     width: 100%;
+    object-fit:cover;
+    margin-top: 20px;
+    background-size: cover;
+    background-position: center;
+}
+
+
+@media screen and (min-width: 480px) {
+     
+  }
