@@ -1,53 +1,46 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import authRoute from './Routes/auth.js';
-import userRoute from './Routes/user.js';
-import userPost from './Routes/Post.js';
-import userCat from './Routes/Categories.js';
-import multer from 'multer';
-import cors from 'cors'
+const express = require("express");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const authRoute = require("./routes/auth");
+const userRoute = require("./routes/users");
+const postRoute = require("./routes/posts");
+const contactRoute = require("./routes/contact");
+const multer = require("multer"); 
+const path = require("path"); 
 
 const app = express();
+
+dotenv.config();
 app.use(express.json());
-const PORT = 5000;
+app.use("/images", express.static(path.join(__dirname, "/images"))); 
 
-const storage = multer.diskStorage({
-    destination:(req,file,cb) =>{
-        cb(null,"images");
-    },
-        filename:(req,file,cb) =>{
-            cb(null,"hello.jpg");
-        },
-    
-});
+mongoose.connect(process.env.DATABASE, {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true,
 
-const upload = multer({storage:storage}); 
-app.post('/api/upload', upload.single('file'), (req,res) =>{
-    res.status(200).json("File has been uploaded");
 })
-
-app.use(cors());
-app.use('/api/auth',authRoute);
-app.use('/api/posts',userPost);
-app.use('/api/users',userRoute);
-app.use('/api/category',userCat) 
-
-if(process.env.NODE_ENV === 'production'){
-    app.use(express.static('client/build'));
-
-    app.get('*',(req,res) =>{
-        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
-    })
-}; 
-
-mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    //useCreateIndex: true,
-  })
-  .then(console.log("Connected to MongoDB"))
+  .then(console.log("db connected successfully"))
   .catch((err) => console.log(err));
 
-app.listen(PORT,()=>{
-    console.log("Server is running");
+const storage = multer.diskStorage({  
+  destination: (req, file, cb) => {  
+    cb(null, "images");
+  },
+  filename: (req, file, cb) => { 
+    cb(null, req.body.name) 
+  },
 })
+
+const upload = multer({ storage: storage }); 
+app.post("/api/upload", upload.single("file"), (req, res) => { 
+  res.status(200).json("el archivo fue enviado");
+})
+
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/contact", contactRoute);
+
+app.listen(process.env.PORT, () => {
+  console.log("Server is running succesfully");
+});
