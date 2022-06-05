@@ -1,51 +1,47 @@
-import React from 'react'
+import React from "react";
 import {
-    Container,
-    Wrapper,
-    Image,
-    Info,
-    Title,
-    Categ,
-    Date,
-    Desc,
-    FullPost
-} from './PostStyle'
+  Container,
+  Wrapper,
+  Image,
+  Info,
+  Title,
+  Categ,
+  Date,
+  Desc,
+  FullPost,
+} from "./PostStyle";
 import {
-    postImgAnimation,
-    textPostAnimation
-} from '../../resources/Animations'
-import { useScroll } from '../../resources/useScroll'
+  postImgAnimation,
+  textPostAnimation,
+} from "../../resources/Animations";
+import { useScroll } from "../../resources/useScroll";
 
 export default function Post({ post }) {
+  const [element, controls] = useScroll();
 
-    const [element, controls] = useScroll();
+  const PF = "http://localhost:8000/images/";
 
-    const PF = "http://localhost:5000/images/"
-
-    return (
-        <Container ref={element}>
-            <Wrapper>
-                <Image
-                    src={PF + post.photo}
-                    variants={postImgAnimation}
-                    animate={controls}
-                />
-                <Info
-                    variants={textPostAnimation}
-                    animate={controls}
-                >
-                    <Title> {post.title} </Title>
-                    <Categ>
-                        {post.categories.map((c, index) => (
-                            <span key={index}>{c}</span>
-                        ))}
-                    </Categ>
-                    <hr />
-                    <Date> {new window.Date(post.createdAt).toLocaleDateString()} </Date>
-                    <Desc> {post.desc} </Desc>
-                    <FullPost to={`/post/${post._id}`}>Clara</FullPost>
-                </Info>
-            </Wrapper>
-        </Container>
-    )
+  return (
+    <Container ref={element}>
+      <Wrapper>
+        <Image
+          src={PF + post.photo}
+          variants={postImgAnimation}
+          animate={controls}
+        />
+        <Info variants={textPostAnimation} animate={controls}>
+          <Title> {post.title} </Title>
+          <Categ>
+            {post.categories.map((c, index) => (
+              <span key={index}>{c}</span>
+            ))}
+          </Categ>
+          <hr />
+          <Date> {new window.Date(post.createdAt).toLocaleDateString()} </Date>
+          <Desc> {post.desc} </Desc>
+          <FullPost to={`/post/${post._id}`}>Go to Post</FullPost>
+        </Info>
+      </Wrapper>
+    </Container>
+  );
 }

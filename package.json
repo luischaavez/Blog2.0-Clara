@@ -1,0 +1,22 @@
+{
+  "name": "blog2.0-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku-prebuild": "npm --prefix ./server install",
+    "start": "node ./server/index.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luischaavez/Blog2.0-Clara.git"
+  },
+  "keywords": [],
+  "author": "Luis Chavez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luischaavez/Blog2.0-Clara/issues"
+  },
+  "homepage": "https://github.com/luischaavez/Blog2.0-Clara#readme"
+}

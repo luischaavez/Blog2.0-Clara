@@ -1,17 +1,11 @@
-import React, { useState } from 'react'
-import {
-  Container,
-  Title,
-  Form,
-  Label,
-  Input,
-  Button
-} from './RegisterStyle'
-import axios from 'axios'
-
+import React, { useState, useContext } from "react";
+import { Container, Title, Form, Label, Input, Button } from "./RegisterStyle";
+import axios from "axios";
+import { register } from "../../service/api";
+import { Context } from "../../context/Context";
 
 export default function Register() {
-
+  const { user, dispatch, isFetching } = useContext(Context);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,12 +15,18 @@ export default function Register() {
     e.preventDefault();
     setError(false);
     try {
-      const res = await axios.post("/auth/register", {
+      // const res = await axios.post("/auth/register", {
+      //   username,
+      //   email,
+      //   password,
+      // });
+      // res.data && window.location.replace("/login");
+      const data = await register({
         username,
         email,
         password,
       });
-      res.data && window.location.replace("/login");
+      dispatch({ type: "LOGIN_SUCCESS", payload: data });
     } catch (err) {
       setError(true);
     }
@@ -55,8 +55,12 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit"> Registrar </Button>
-        {error && <span style={{ color: "red", marginTop: "10px" }}>Ha ocurrido un error</span>}
+        {error && (
+          <span style={{ color: "red", marginTop: "10px" }}>
+            Ha ocurrido un error
+          </span>
+        )}
       </Form>
     </Container>
-  )
+  );
 }

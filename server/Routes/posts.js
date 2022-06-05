@@ -8,7 +8,7 @@ router.post("/", async (req, res) => {
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -67,17 +67,17 @@ router.get("/", async (req, res) => {
   const username = req.query.user;
   const catName = req.query.cat;
   try {
-    let posts; 
-    if (username) { 
-      posts = await Post.find({ username }); 
-    } else if (catName) { 
-      posts = await Post.find({ 
-        categories: { 
-            $in: [catName],  
+    let posts;
+    if (username) {
+      posts = await Post.find({ username });
+    } else if (catName) {
+      posts = await Post.find({
+        categories: {
+          $in: [catName],
         },
       });
-    } else { 
-      posts = await Post.find();  
+    } else {
+      posts = await Post.find();
     }
     res.status(200).json(posts);
   } catch (err) {
@@ -85,4 +85,4 @@ router.get("/", async (req, res) => {
   }
 });
 
-module.exports = router
+module.exports = router;
